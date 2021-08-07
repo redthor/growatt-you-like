@@ -1,0 +1,6 @@
+.terraform/
+# probably share these in a team, but not publicly
+.terraform.lock.hcl
+terraform.auto.tfvars
+# Can provide your own backend
+backend.tf
