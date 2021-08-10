@@ -22,6 +22,9 @@ aws iot create-keys-and-certificate \
 ```
 Be careful not to commit certificate files to git.
 
+We are saving the public key, but that is what everyone else can see, and what AWS keeps. So we actually have
+no use for it. We will use the PEM file and the private key.
+
 ### Terraform Auto TFvars
 Add the `"certificateArn"` from the output above into a `terraform.auto.tfvars` file:
 ```terraform
@@ -56,4 +59,6 @@ terraform apply
 We'll use the `-ats` endpoint. The endpoint is output to the console when the Terraform
 build has been completed. The `-ats` endpoint requires the AWS Root CA certificate from here:
 
-https://www.amazontrust.com/repository/AmazonRootCA1.pem
+```shell
+wget https://www.amazontrust.com/repository/AmazonRootCA1.pem
+```

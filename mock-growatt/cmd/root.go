@@ -40,7 +40,10 @@ func mockGrowatt(cmd *cobra.Command, args []string) {
 		log.Fatalf("Error loading messages: %v", err.Error())
 	}
 
-	conn, _ := net.Dial("tcp", fmt.Sprintf("%s:%d", ip.String(), port))
+	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", ip.String(), port))
+	if err != nil {
+		log.Fatalf("Error on dial: %v", err.Error())
+	}
 	defer conn.Close()
 
 	for {
