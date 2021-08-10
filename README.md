@@ -10,8 +10,11 @@ panel/inverter data. It is heavily inspired by the very excellent
 
 How it differs is that the aim is to get the data into the cloud first,
 then conduct any processing/decoding there once the data has been secured.
-Therefore, data is sent as it is to AWS IOT where processing happens. As
-with [grott](https://github.com/johanmeijer/grott) the data is also sent
+The principle is keep it as simple as possible to reduce the risk of a bug
+preventing me from storing the data. With the data we can retry processing
+in the cloud.
+
+As with [grott](https://github.com/johanmeijer/grott) the data is also sent
 to the Growatt central server, though arguably that could also happen in
 the cloud.
 
