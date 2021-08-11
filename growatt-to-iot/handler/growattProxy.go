@@ -9,8 +9,9 @@ import (
 var (
 	// Hard coded for now
 	growattServerIp net.IP = net.IPv4(47, 91, 67, 66)
-	growattPort int = 5279
+	growattPort     int    = 5279
 )
+
 type GrowattProxy struct {
 	conn net.Conn
 }
