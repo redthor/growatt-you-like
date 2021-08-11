@@ -51,7 +51,7 @@ func (m *MQTTPublisher) Register() func(message []byte) {
 }
 
 func (m *MQTTPublisher) Publish(message []byte) {
-	log.Println("Publish %d bytes\n", len(message))
+	log.Printf("Publish %d bytes\n", len(message))
 
 	if token := m.client.Publish(m.topic, 0, false, message); token.Wait() && token.Error() != nil {
 		log.Fatalf("failed to send update: %v", token.Error())
