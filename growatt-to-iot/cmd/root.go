@@ -40,14 +40,17 @@ func growattToIOT(cmd *cobra.Command, args []string) {
 	log.Println("Starting growatt-to-iot.")
 	printOtions()
 	mqttPublisher := handler.NewMQTTPublisher(tlsCert, tlsPrivateKey, tlsCA, mqttEndpoint)
-	//onMessage := mqttPublisher.Register()
-	growattServerProxy := handler.NewGrowattProxy()
 
 	chain := util.NewChain()
-	chain.AddFn(mqttPublisher.Register())
+	onMessage := chain.AddFn(mqttPublisher.Register())
+
+	// If we are proxying calls. This could be done from the cloud?
+	if growattServerProxy {
+		onMessage = chain.AddFn(handler.NewGrowattProxy().Register())
+	}
 
 	packetLength := 4096
-	listenHandler := handler.NewListenHandler(ip, port, packetLength, chain.AddFn(growattServerProxy.Register()))
+	listenHandler := handler.NewListenHandler(ip, port, packetLength, onMessage)
 	listenHandler.Start()
 }
 
