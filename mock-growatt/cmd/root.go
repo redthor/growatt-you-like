@@ -60,7 +60,7 @@ func emitMessages(conn net.Conn, messages []string) error {
 		if err != nil {
 			return err
 		}
-		log.Printf("Sent %d bytes", count)
+		log.Printf("Mock service sent [%d] bytes.", count)
 		time.Sleep(time.Duration(delaySec) * time.Second)
 	}
 

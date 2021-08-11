@@ -43,7 +43,7 @@ func (l *ListenHandler) Start() {
 		if err != nil {
 			log.Fatalf("Received an error reading from the socket: %v", err.Error())
 		}
-		fmt.Printf("Read %d bytes\n", n)
+		log.Printf("Listener read [%d] bytes.", n)
 		l.onMessage(message[:n])
 	}
 }

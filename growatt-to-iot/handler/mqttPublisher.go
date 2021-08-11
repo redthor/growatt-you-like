@@ -51,11 +51,10 @@ func (m *MQTTPublisher) Register() func(message []byte) {
 }
 
 func (m *MQTTPublisher) publish(message []byte) {
-	log.Printf("MQTT Published %d bytes.\n", len(message))
-
 	if token := m.client.Publish(m.topic, 0, false, message); token.Wait() && token.Error() != nil {
 		log.Fatalf("failed to send update: %v", token.Error())
 	}
+	log.Printf("MQTT published [%d] bytes.\n", len(message))
 }
 
 func getTLSConfig(tlsCert string, tlsPrivateKey string, tlsCA string) (*tls.Config, string, error) {
