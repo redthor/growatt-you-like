@@ -5,7 +5,7 @@ resource "aws_iot_topic_rule" "growatt-to-iot-to-s3-rule" {
   sql         = "SELECT * FROM '+/inbound-raw'"
   sql_version = "2016-03-23"
 
-  # TODO - is timestamp() in milliseconds? Or will we possibly overwrite files?
+  # timestamp() is in milliseconds, unlikely to overwrite any messages
   s3 {
     bucket_name = aws_s3_bucket.growatt-to-iot.id
     key = "$${topic()}/$${timestamp()}.growatt.bin"

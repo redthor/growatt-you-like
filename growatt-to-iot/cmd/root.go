@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/redthor/growatt-you-like/growatt-to-iot/handler"
+	"github.com/redthor/growatt-you-like/growatt-to-iot/util"
 	"github.com/spf13/cobra"
 )
 
@@ -36,12 +37,17 @@ func Execute() {
 }
 
 func growattToIOT(cmd *cobra.Command, args []string) {
-	log.Println("Starting growatt-to-iot")
+	log.Println("Starting growatt-to-iot.")
 	printOtions()
 	mqttPublisher := handler.NewMQTTPublisher(tlsCert, tlsPrivateKey, tlsCA, mqttEndpoint)
-	onMessage := mqttPublisher.Register()
+	//onMessage := mqttPublisher.Register()
+	growattServerProxy := handler.NewGrowattProxy()
+
+	chain := util.NewChain()
+	chain.AddFn(mqttPublisher.Register())
+
 	packetLength := 4096
-	listenHandler := handler.NewListenHandler(ip, port, packetLength, onMessage)
+	listenHandler := handler.NewListenHandler(ip, port, packetLength, chain.AddFn(growattServerProxy.Register()))
 	listenHandler.Start()
 }
 
