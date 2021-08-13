@@ -58,10 +58,10 @@ func printOtions() {
 	log.Printf("Listen on IP = %v, Port = %v", ip, port)
 
 	proxyMessage := "Will proxy to Growatt Server"
-	if growattServerProxy == false {
+	if !growattServerProxy {
 		proxyMessage = "Will not proxy to Growatt Server"
 	}
-	log.Printf(proxyMessage)
+	log.Println(proxyMessage)
 
 	log.Printf("TLS Cert = %v, TLS Private Key = %v, TLS CA = %v", tlsCert, tlsPrivateKey, tlsCA)
 	log.Printf("mqtt endpoint = %v", mqttEndpoint)
@@ -90,5 +90,8 @@ func init() {
 	rootCmd.Flags().StringVar(&tlsCA, "tlsCA", defaultTLSCA, "TLS CA.")
 
 	rootCmd.Flags().StringVar(&mqttEndpoint, "mqttEndpoint", "", "mqtt endpoint. (required)")
-	rootCmd.MarkFlagRequired("mqttEndpoint")
+	err := rootCmd.MarkFlagRequired("mqttEndpoint")
+	if err != nil {
+		log.Fatalf("Error marking flag required: %s", err.Error())
+	}
 }

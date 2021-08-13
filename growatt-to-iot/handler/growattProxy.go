@@ -8,8 +8,8 @@ import (
 
 var (
 	// Hard coded for now
-	growattServerIp net.IP = net.IPv4(47, 91, 67, 66)
-	growattPort     int    = 5279
+	growattServerIP = net.IPv4(47, 91, 67, 66)
+	growattPort     = 5279
 )
 
 type GrowattProxy struct {
@@ -24,7 +24,7 @@ func (g *GrowattProxy) Register() func(message []byte) {
 	log.Println("Set up Growatt Proxy.")
 
 	var err error
-	g.conn, err = net.Dial("tcp", fmt.Sprintf("%s:%d", growattServerIp.String(), growattPort))
+	g.conn, err = net.Dial("tcp", fmt.Sprintf("%s:%d", growattServerIP.String(), growattPort))
 	if err != nil {
 		log.Fatalf("Error connecting to growatt server. Err = %s", err.Error())
 	}
