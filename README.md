@@ -34,4 +34,4 @@ Growatt to IOT is the application that connects to AWS IOT MQTT and proxies mess
 from the socket to an MQTT topic. By default, it sends the messages to the Growatt
 Server as well.
 
-See Growatt To IOT [README.md](./growat-to-iot/README.md).
+See Growatt To IOT [README.md](./growatt-to-iot/README.md).
