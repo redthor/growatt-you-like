@@ -10,9 +10,9 @@ panel/inverter data. It is heavily inspired by the very excellent
 
 How it differs is that the aim is to get the data into the cloud first,
 then conduct any processing/decoding there once the data has been secured.
-The principle is keep it as simple as possible to reduce the risk of a bug
-preventing me from storing the data. With the data we can retry processing
-in the cloud.
+The idea is to keep it as simple as possible to reduce the risk of a bug
+getting in the way of storing the data. With the data in the cloud
+we can retry processing anytime.
 
 As with [grott](https://github.com/johanmeijer/grott) the data is also sent
 to the Growatt central server, though arguably that could also happen in

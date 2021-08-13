@@ -12,7 +12,8 @@ The growat MQTT topic and
 ## TODO
 * An fatal error in the chain should not stop the rest of the chain
 * An EOF in the listen should not stop the program - instead
-restart (could be supervisord/docker-compose or the app)
+restart (could be supervisord/docker-compose or the app?)
+* Heartbeat monitoring
 * Try and capture program closure and let each handler close their connections
 nicely
 * Let user configure via ENV vars and a config file
