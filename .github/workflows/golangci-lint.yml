@@ -17,3 +17,6 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: latest
+          working-directory:
+            - growatt-to-iot
+            - mock-growatt
