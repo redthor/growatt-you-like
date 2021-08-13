@@ -1,0 +1,10 @@
+*.exe
+*.exe~
+*.ca
+*.crt
+*.key
+*.csr
+*.der
+*.kdb
+*.pem
+.idea
