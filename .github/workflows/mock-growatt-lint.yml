@@ -21,3 +21,4 @@ jobs:
         with:
           version: latest
           working-directory: mock-growatt
+          args: -E revive

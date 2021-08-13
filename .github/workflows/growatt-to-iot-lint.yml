@@ -21,3 +21,4 @@ jobs:
         with:
           version: latest
           working-directory: growatt-to-iot
+          args: -E revive
