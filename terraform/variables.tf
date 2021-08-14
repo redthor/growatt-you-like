@@ -8,3 +8,14 @@ variable "aws_region" {
     type        = string
     default     = "us-east-1"
 }
+
+variable "sumologic_time_zone" {
+    description = "Your timezone for sumo logic triggers"
+    type        = string
+    default     = "AEST"
+}
+
+variable "sumologic_trigger_email" {
+    description = "Email address to send monitoring alerts"
+    type        = string
+}
