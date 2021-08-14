@@ -1,0 +1,21 @@
+# Linux systemd unit for Raspberry pi
+[Unit]
+Description=Growatt-to-iot
+After=syslog.target network.target
+StartLimitIntervalSec=20
+StartLimitBurst=5
+
+[Service]
+SyslogIdentifier=growatt-to-iot
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/proj/growatt-you-like/growatt-to-iot
+ExecStart=/home/pi/proj/growatt-you-like/growatt-to-iot/growatt-to-iot [ARGS]
+StandardOutput=append:/home/pi/proj/growatt-you-like/growatt-to-iot/growatt-to-iot.log
+Restart=always
+RestartSec=2
+# Give the script some time to startup
+TimeoutSec=20
+
+[Install]
+WantedBy=multi-user.target
