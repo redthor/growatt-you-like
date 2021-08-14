@@ -2,11 +2,14 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net"
+	"net/url"
 	"os"
 
 	"github.com/redthor/growatt-you-like/growatt-to-iot/handler"
+	"github.com/redthor/growatt-you-like/growatt-to-iot/sumolog"
 	"github.com/redthor/growatt-you-like/growatt-to-iot/util"
 	"github.com/spf13/cobra"
 )
@@ -21,6 +24,8 @@ var (
 	tlsCA         string
 
 	mqttEndpoint string
+
+	sumoLogicEndpoint string
 
 	rootCmd = &cobra.Command{
 		Use:   "growatt-to-iot",
@@ -37,6 +42,8 @@ func Execute() {
 }
 
 func growattToIOT(cmd *cobra.Command, args []string) {
+	configLog()
+
 	log.Println("Starting growatt-to-iot.")
 	printOtions()
 	mqttPublisher := handler.NewMQTTPublisher(tlsCert, tlsPrivateKey, tlsCA, mqttEndpoint)
@@ -52,6 +59,19 @@ func growattToIOT(cmd *cobra.Command, args []string) {
 	packetLength := 4096
 	listenHandler := handler.NewListenHandler(ip, port, packetLength, onMessage)
 	listenHandler.Start()
+}
+
+func configLog() {
+	// Send logs to stdOut and SumoLogic if available
+	slURL, err := url.Parse(sumoLogicEndpoint)
+	if err == nil && len(sumoLogicEndpoint) > 0 {
+		sumo, err := sumolog.NewSumoLogic(slURL)
+
+		if err == nil {
+			multi := io.MultiWriter(os.Stdout, sumo)
+			log.SetOutput(multi)
+		}
+	}
 }
 
 func printOtions() {
@@ -94,4 +114,6 @@ func init() {
 	if err != nil {
 		log.Fatalf("Error marking flag required: %s", err.Error())
 	}
+
+	rootCmd.Flags().StringVar(&sumoLogicEndpoint, "sumoLogicEndpoint", "", "sumo logic http endpoint.")
 }
