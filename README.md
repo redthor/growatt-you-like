@@ -1,7 +1,5 @@
 # Growatt You Like 🌱️
 
-## 🚨️ Under Construction 🚨️
-
 ## Objectives
 This is a hobby project with the purpose of getting and keeping my solar
 panel/inverter data. It is heavily inspired by the very excellent
