@@ -5,8 +5,13 @@ To connect to AWS IOT we need the TLS files and the AWS ATS Root CA file. Follow
 the Terraform [README.md](../terraform/README.md) to get the TLS files. By default the application
 assumes the files are in the same folder it is running from, so just copy them over.
 
-## MQTT Topic
-The growat MQTT topic and 
+### Get The AWS CA Certificate
+We'll use the `-ats` endpoint. The endpoint is output to the console when the Terraform
+build has been completed. The `-ats` endpoint requires the AWS Root CA certificate from here:
+
+```shell
+wget https://www.amazontrust.com/repository/AmazonRootCA1.pem
+```
 
 ## TODO
 * A fatal error in the chain should not stop the rest of the chain

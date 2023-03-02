@@ -38,13 +38,6 @@ resource "sumologic_monitor" "log_monitor_base_growatt_to_iot_missing_data" {
         }
       }
     }
-    logs_outlier_condition {
-      direction = "Both"
-      critical {
-        consecutive = 1
-        window      = 10
-      }
-    }
     logs_missing_data_condition {
       time_range = "15m"
     }

@@ -38,7 +38,7 @@ that you used to generate the certificates.
 You can either go with local state or organise a `backend.tf` like:
 ```terraform
 terraform {
-  backend "remote" {
+  cloud {
     organization = "my-org"
     workspaces {
       name = "growatt-you-like"
@@ -53,31 +53,4 @@ Then:
 ```shell
 terraform init
 terraform apply
-```
-
-### Get The AWS CA Certificate
-We'll use the `-ats` endpoint. The endpoint is output to the console when the Terraform
-build has been completed. The `-ats` endpoint requires the AWS Root CA certificate from here:
-
-```shell
-wget https://www.amazontrust.com/repository/AmazonRootCA1.pem
-```
-
-### Turn on IOT Logging
-The AWS terraform provider does [not yet](https://github.com/hashicorp/terraform-provider-aws/pull/13392)
-let us configure IOT logging. Nor is there a aws_iot_thing_group [resource](https://github.com/hashicorp/terraform-provider-aws/pull/16863).
-So we need to run some manual command to turn on logging. You may need to reverse the thing_group 
-for `terraform destroy`. You'll need to get the ROLE ARN:
-```shell
-# You may need to add --region
-aws iot create-thing-group \
-    --thing-group-name growatt-to-iot-group
-
-aws iot add-thing-to-thing-group \
-    --thing-name growatt-to-iot \
-    --thing-group-name growatt-to-iot-group
-
-aws iot set-v2-logging-options \
-    --role-arn <value> \
-    --default-log-level WARN
 ```
