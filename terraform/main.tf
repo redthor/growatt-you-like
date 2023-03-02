@@ -2,11 +2,11 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "~> 3.50"
+      version = "~> 4.0"
     }
     sumologic = {
       source = "SumoLogic/sumologic"
-      version = "2.9.8"
+      version = "~> 2.21"
     }
   }
 }
