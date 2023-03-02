@@ -23,24 +23,31 @@ resource "sumologic_monitor" "log_monitor_base_growatt_to_iot_missing_data" {
     query  = "_collector=${sumologic_collector.base.id}"
   }
 
-  triggers {
-    threshold_type   = "LessThanOrEqual"
-    threshold        = 0
-    time_range       = "15m"
-    occurrence_type  = "ResultCount"
-    trigger_source   = "AllResults"
-    trigger_type     = "Critical"
-    detection_method = "StaticCondition"
-  }
-
-  triggers {
-    threshold_type   = "GreaterThan"
-    threshold        = 0
-    time_range       = "15m"
-    occurrence_type  = "ResultCount"
-    trigger_source   = "AllResults"
-    trigger_type     = "ResolvedCritical"
-    detection_method = "StaticCondition"
+  trigger_conditions {
+    logs_static_condition {
+      field = "_count"
+      critical {
+        time_range = "15m"
+        alert {
+          threshold = 0
+          threshold_type = "LessThanOrEqual"
+        }
+        resolution {
+          threshold = "0"
+          threshold_type = "GreaterThan"
+        }
+      }
+    }
+    logs_outlier_condition {
+      direction = "Both"
+      critical {
+        consecutive = 1
+        window      = 10
+      }
+    }
+    logs_missing_data_condition {
+      time_range = "15m"
+    }
   }
 
   notifications {
@@ -53,34 +60,4 @@ resource "sumologic_monitor" "log_monitor_base_growatt_to_iot_missing_data" {
     }
     run_for_trigger_types = ["Critical", "ResolvedCritical"]
   }
-
-// I wanted to use these but the response from SL API was "get in contact with account representative".
-// The "triggers" API is deprecated, but can't access "trigger_conditions"
-//
-//  trigger_conditions {
-//    logs_static_condition {
-//      field = "_count"
-//      critical {
-//        time_range = "15m"
-//        alert {
-//          threshold = 0
-//          threshold_type = "LessThanOrEqual"
-//        }
-//        resolution {
-//          threshold = "0"
-//          threshold_type = "GreaterThan"
-//        }
-//      }
-//    }
-//    logs_outlier_condition {
-//      direction = "Both"
-//      critical {
-//        consecutive = 1
-//        window      = 10
-//      }
-//    }
-//    logs_missing_data_condition {
-//      time_range = "15m"
-//    }
-//  }
 }
