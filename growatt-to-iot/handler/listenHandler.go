@@ -31,19 +31,23 @@ func (l *ListenHandler) Start() {
 
 	log.Println("Started listening.")
 
-	message := make([]byte, l.packetSize)
-
-	conn, err := listener.Accept()
-	if err != nil {
-		log.Fatalf("Accept connecton failed: %v", err.Error())
-	}
-
 	for {
-		n, err := conn.Read(message)
+		conn, err := listener.Accept()
 		if err != nil {
-			log.Fatalf("Received an error reading from the socket: %v", err.Error())
+			log.Printf("Accept connection failed: %v", err.Error())
+			continue
 		}
-		log.Printf("Listener read [%d] bytes.", n)
-		l.onMessage(message[:n])
+
+		message := make([]byte, l.packetSize)
+		for {
+			n, err := conn.Read(message)
+			if err != nil {
+				log.Printf("Received an error reading from the socket: %v", err.Error())
+				break
+			}
+			log.Printf("Listener read [%d] bytes.", n)
+			l.onMessage(message[:n])
+		}
+		conn.Close()
 	}
 }
